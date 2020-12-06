@@ -23,6 +23,20 @@ app.use(cors());
 // Connecting DB
 connectDB();
 
+
+// Import Routes
+const indexRoute = require('./routes');
+const booksRoute = require('./routes/books');
+const usersRoute = require('./routes/users');
+
+
+// Handling Routes
+app.use('/books', booksRoute);
+app.use('/users', usersRoute);
+app.use('/', indexRoute);
+app.use(error);
+
+
 const swaggerOptions = {
     swaggerDefinition: {
         info: {
@@ -41,18 +55,6 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
-
-// Import Routes
-const indexRoute = require('./routes');
-const booksRoute = require('./routes/books');
-const usersRoute = require('./routes/users');
-
-
-// Handling Routes
-app.use('/books', booksRoute);
-app.use('/users', usersRoute);
-app.use('/', indexRoute);
-app.use(error);
 
 /**
  * @swagger
