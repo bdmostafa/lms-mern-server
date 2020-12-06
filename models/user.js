@@ -31,7 +31,7 @@ const usersSchema = new mongoose.Schema({
       message: "Password must not contain 'password'",
     },
   },
-  isAdmin: {
+  isLibrarian: {
     type: Boolean,
     default: false,
   },
@@ -42,7 +42,7 @@ usersSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     {
       id: this._id,
-      isAdmin: this.isAdmin,
+      isLibrarian: this.isLibrarian,
     },
     process.env.JWT_SECRET_KEY,
     { expiresIn: "4h" }
