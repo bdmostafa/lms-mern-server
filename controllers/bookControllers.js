@@ -78,7 +78,7 @@ module.exports.updateBookController = async (req, res, next) => {
 
   // validation update operation and inputData
   const keysInput = Object.keys(bookInputValue);
-  const allowedForUpdates = ["title", "description"];
+  const allowedForUpdates = ["title", "description", "statusActive"];
 
   // Check if any extra invalid field out of allowedForUpdates is requested or not
   const isAllowed = keysInput.every((update) =>

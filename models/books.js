@@ -14,11 +14,23 @@ const booksSchema = new mongoose.Schema(
             minlength: 10,
             maxlength: 100
         },
+        releaseDate: {
+            type: Date,
+            required: true,
+        },
+        bookImage: {
+            type: File,
+            required: true,
+        },
         author: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'Librarian',
             required: true
+        },
+        statusActive: {
+            type: Boolean,
         }
+        
     },
     {
         timestamps: true
