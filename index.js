@@ -9,7 +9,7 @@ app.use(express.json());
 
 
 // Connecting DB
-connectDB()
+connectDB();
 
 
 const swaggerOptions = {
