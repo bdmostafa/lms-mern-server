@@ -3,14 +3,25 @@ const app = express();
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUI = require('swagger-ui-express');
 const { connectDB } = require('./db/dbConnection');
+const { error } = require('./middleware/error');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+
+// Port
+const PORT = process.env.PORT || 5000;
+
+// Config
+require('dotenv').config({
+    path: './config/keys.env'
+})
 
 // Middleware
 app.use(express.json());
-
+app.use(cookieParser(process.env.COOKIES_SECRET));
+app.use(cors());
 
 // Connecting DB
 connectDB();
-
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -31,11 +42,17 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 
+// Import Routes
+const indexRoute = require('./routes');
+const booksRoute = require('./routes/books');
+const usersRoute = require('./routes/users');
 
 
-// app.get('/', (req, res) => {
-//     res.send('I am from LMS (Library Management System')
-// })
+// Handling Routes
+app.use('/books', booksRoute);
+app.use('/users', usersRoute);
+app.use('/', indexRoute);
+app.use(error);
 
 /**
  * @swagger
@@ -49,21 +66,6 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 app.get('/books', (req, res) => {
     res.send('successfully books found')
 })
-
-
-// app.get('/books', (req, res) => {
-//     if (books.length == 0) {
-//         return res.send('No book')
-//     }
-//     res.status(200).send(Books)
-// })
-
-// app.get('/books/:bookId', (req, res) => {
-//     const id = req.params.bookId;
-//     const book = books.find(book => book.id === id)
-//     if (book) return res.send(book);
-//     res.status(404).send('Books Not Found');
-// })
 
 /**
  * @swagger
@@ -85,14 +87,7 @@ app.post('/books', (req, res) => {
     
 })
 
-
-app.get('*', (req, res) => {
-    res.status(404).send('404 Not Found')
-})
-
-
-
 // Server creation
-app.listen(5000, () => {
-    console.log(`Listening to the port 5000`)
+app.listen(PORT, () => {
+    console.log(`Listening on the ${PORT}`);
 })

@@ -1,7 +1,7 @@
 const express = require("express");
 const { check } = require("express-validator");
 const { auth } = require("../middleware/auth");
-const { admin } = require("../middleware/admin");
+const { librarian } = require("../middleware/librarian");
 const {
   getUsersController,
   addUserController,
@@ -12,7 +12,7 @@ const {
 const router = express.Router();
 
 // Getting all users
-router.get("/", [auth, admin], getUsersController);
+router.get("/", [auth, librarian], getUsersController);
 
 // getting single user
 router.get(
