@@ -1,10 +1,16 @@
 const express = require('express');
 const app = express();
 const swaggerJsDoc = require('swagger-jsdoc')
-const swaggerUI = require('swagger-ui-express')
+const swaggerUI = require('swagger-ui-express');
+const { connectDB } = require('./db/dbConnection');
 
 // Middleware
 app.use(express.json());
+
+
+// Connecting DB
+connectDB()
+
 
 const swaggerOptions = {
     swaggerDefinition: {
